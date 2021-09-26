@@ -7,8 +7,6 @@ Be able to choose the number of channels and signals, then run simulation
 This simulation should then show what signals will use what channels
 How to implement:
 Make network class
-Make channel class
-Make signal class
 """
 
 import uuid
