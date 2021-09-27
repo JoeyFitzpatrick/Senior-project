@@ -68,6 +68,11 @@ class Channel:
         else:
             print("Not enough bandwith available to add signal!")
 
+    def remove_signal(self, index):
+        self.signals.pop(index)
+
+
+
 channel_1 = Channel(location=(0, 0), bandwith=50)
 channel_2 = Channel(location=(20, 20), bandwith=100)
 
@@ -95,6 +100,12 @@ def add_signal_to_best_channel(signal: Signal):
 
 
 # Tkinter gui code below
+def update_textareas():
+        T.delete("1.0", END)
+        T.insert(END, channel_1.get_data())
+        T_2.delete("1.0", END)
+        T_2.insert(END, channel_2.get_data())
+
 def add_signal_gui(*args):
     incumbent = False
     if is_incumbent_gui.get() == "y": incumbent = True
@@ -103,10 +114,14 @@ def add_signal_gui(*args):
     gui_signal = Signal(location=(x_coord.get(), y_coord.get()), bandwith_usage=bandwith_gui.get(), is_incumbent=incumbent)
     try:
         add_signal_to_best_channel(gui_signal)
-        T.delete("1.0", END)
-        T.insert(END, channel_1.get_data())
-        T_2.delete("1.0", END)
-        T_2.insert(END, channel_2.get_data())
+        update_textareas()
+    except ValueError:
+        pass
+
+def remove_signal_gui():
+    try: 
+        channels[channel_selector_gui.get()].remove_signal(signal_selector_gui.get())
+        update_textareas()
     except ValueError:
         pass
 
@@ -140,6 +155,18 @@ is_incumbent_entry.grid(column=2, row=4, sticky=(W, E))
 ttk.Label(mainframe, text="Incumbent signal? y/n").grid(column=1, row=4, sticky=W)
 
 ttk.Button(mainframe, text="Add signal", command=add_signal_gui).grid(column=3, row=3, sticky=W)
+
+channel_selector_gui = IntVar()
+channel_selector_entry = ttk.Entry(mainframe, width=7, textvariable=channel_selector_gui)
+channel_selector_entry.grid(column=5, row=1, sticky=(W, E))
+ttk.Label(mainframe, text="Channel to remove from? 0/1").grid(column=4, row=1, sticky=W)
+
+signal_selector_gui = IntVar()
+signal_selector_entry = ttk.Entry(mainframe, width=7, textvariable=signal_selector_gui)
+signal_selector_entry.grid(column=5, row=2, sticky=(W, E))
+ttk.Label(mainframe, text="Index of signal to remove from channel").grid(column=4, row=2, sticky=W)
+
+ttk.Button(mainframe, text="Remove signal", command=remove_signal_gui).grid(column=5, row=3, sticky=W)
 
 T = Text(root, height=40, width=50)
 T.grid(column = 0, row = 6, sticky = S)
