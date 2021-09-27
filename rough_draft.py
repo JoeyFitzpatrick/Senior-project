@@ -45,22 +45,21 @@ class Channel:
 
     def print_signals_data(self):
         if self.signals:
+            signal_data = ""
             for signal in self.signals:
-                print("Signal in channel:")
-                print(signal.print_data() + '\n')
+                signal_data += "\nSignal in channel:\n" + signal.print_data() + '\n'
+            return signal_data
     
     def get_data(self):
-        print(f'Location is {self.location}')
-        print(f'Available bandwith is {self.get_available_bandwith()}')
-        print('\n')
-        self.print_signals_data()
+        location = f'Location is {self.location}\n'
+        available_bandwith = f'Available bandwith is {self.get_available_bandwith()}\n'
+        return location + available_bandwith + self.print_signals_data()
 
     def add_signal(self, new_signal: Signal):
         if new_signal.bandwith_usage <= self.get_available_bandwith():
             self.signals.append(new_signal)
         else:
             print("Not enough bandwith available to add signal!")
-        self.get_data()
 
 test_signal_1 = Signal(location=(0, 0), bandwith_usage=5, is_incumbent = False)
 test_signal_2 = Signal(location=(3, 5), bandwith_usage=10, is_incumbent = True)
@@ -117,17 +116,9 @@ ttk.Button(mainframe, text="Add signal", command=add_signal_gui).grid(column=3, 
 
 
 T = Text(root, height=40, width=80)
-quote = """HAMLET: To be, or not to be--that is the question:
-Whether 'tis nobler in the mind to suffer
-The slings and arrows of outrageous fortune
-Or to take arms against a sea of troubles
-And by opposing end them. To die, to sleep--
-No more--and by a sleep to say we end
-The heartache, and the thousand natural shocks
-That flesh is heir to. 'Tis a consummation
-Devoutly to be wished."""
+channel_data = test_channel.get_data()
 T.grid(column = 0, row = 5, sticky = S)
-T.insert(END, quote)
+T.insert(END, channel_data)
 
 for child in mainframe.winfo_children(): 
     child.grid_configure(padx=5, pady=5)
