@@ -1,12 +1,16 @@
 """
 TODOS:
 Make model of a single IEEE 802.22 network
-Make channels within that network
-Make signals within that network
 Be able to choose the number of channels and signals, then run simulation
-This simulation should then show what signals will use what channels
-How to implement:
-Make network class
+
+implement saved environments, so simulation doesn't always start from scratch
+
+implement signal removal
+
+implement feature where signal keeps list of available channels, so that 
+if it must be removed from a channel, it can join another
+
+simply add more data to signals and channels to more closely match network spec
 """
 
 import uuid
