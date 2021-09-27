@@ -43,12 +43,6 @@ class Channel:
                 sum += signal.bandwith_usage
             return self.bandwith - sum
 
-    def add_signal(self, new_signal: Signal):
-        if new_signal.bandwith_usage <= self.get_available_bandwith():
-            self.signals.append(new_signal)
-        else:
-            print("Not enough bandwith available to add signal!")
-
     def print_signals_data(self):
         if self.signals:
             for signal in self.signals:
@@ -60,6 +54,13 @@ class Channel:
         print(f'Available bandwith is {self.get_available_bandwith()}')
         print('\n')
         self.print_signals_data()
+
+    def add_signal(self, new_signal: Signal):
+        if new_signal.bandwith_usage <= self.get_available_bandwith():
+            self.signals.append(new_signal)
+        else:
+            print("Not enough bandwith available to add signal!")
+        self.get_data()
 
 test_signal_1 = Signal(location=(0, 0), bandwith_usage=5, is_incumbent = False)
 test_signal_2 = Signal(location=(3, 5), bandwith_usage=10, is_incumbent = True)
@@ -74,6 +75,15 @@ test_channel.get_data()
 
 
 # Tkinter gui code below
+def add_signal_gui(*args):
+    incumbent = False
+    if is_incumbent_gui.get() == "y": incumbent = True
+    gui_signal = Signal(location=(x_coord.get(), y_coord.get()), bandwith_usage=bandwith_gui.get(), is_incumbent=incumbent)
+    try:
+        test_channel.add_signal(gui_signal)
+    except ValueError:
+        pass
+
 root = Tk()
 root.title("IEEE 802.22 Simulation")
 
@@ -85,21 +95,29 @@ root.rowconfigure(0, weight=1)
 x_coord = DoubleVar()
 x_coord_entry = ttk.Entry(mainframe, width=7, textvariable=x_coord)
 x_coord_entry.grid(column=2, row=1, sticky=(W, E))
+ttk.Label(mainframe, text="x coordinate").grid(column=1, row=1, sticky=W)
 
 y_coord = DoubleVar()
 y_coord_entry = ttk.Entry(mainframe, width=7, textvariable=y_coord)
 y_coord_entry.grid(column=2, row=2, sticky=(W, E))
+ttk.Label(mainframe, text="y coordinate").grid(column=1, row=2, sticky=W)
+
 
 bandwith_gui = DoubleVar()
 bandwith_entry = ttk.Entry(mainframe, width=7, textvariable=bandwith_gui)
-bandwith_entry.grid(column=3, row=1, sticky=(W, E))
+bandwith_entry.grid(column=2, row=3, sticky=(W, E))
+ttk.Label(mainframe, text="bandwith usage").grid(column=1, row=3, sticky=W)
 
 is_incumbent_gui = StringVar()
 is_incumbent_entry = ttk.Entry(mainframe, width=7, textvariable=is_incumbent_gui)
-is_incumbent_entry.grid(column=3, row=2, sticky=(W, E))
+is_incumbent_entry.grid(column=2, row=4, sticky=(W, E))
+ttk.Label(mainframe, text="incumbent signal? y/n").grid(column=1, row=4, sticky=W)
+
+ttk.Button(mainframe, text="Add signal", command=add_signal_gui).grid(column=3, row=3, sticky=W)
 
 for child in mainframe.winfo_children(): 
     child.grid_configure(padx=5, pady=5)
 
+root.bind("<Return>", add_signal_gui)
 
 root.mainloop()
