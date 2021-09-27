@@ -49,6 +49,8 @@ class Channel:
             for signal in self.signals:
                 signal_data += "\nSignal in channel:\n" + signal.print_data() + '\n'
             return signal_data
+        else:
+            return "No signals present"
     
     def get_data(self):
         location = f'Location is {self.location}\n'
@@ -61,13 +63,7 @@ class Channel:
         else:
             print("Not enough bandwith available to add signal!")
 
-test_signal_1 = Signal(location=(0, 0), bandwith_usage=5, is_incumbent = False)
-test_signal_2 = Signal(location=(3, 5), bandwith_usage=10, is_incumbent = True)
-
-test_channel = Channel(location=(1, 2), bandwith=50)
-
-test_channel.add_signal(test_signal_1)
-test_channel.add_signal(test_signal_2)
+test_channel = Channel(location=(0, 0), bandwith=50)
 
 test_channel.get_data()
 
@@ -80,6 +76,8 @@ def add_signal_gui(*args):
     gui_signal = Signal(location=(x_coord.get(), y_coord.get()), bandwith_usage=bandwith_gui.get(), is_incumbent=incumbent)
     try:
         test_channel.add_signal(gui_signal)
+        T.delete("1.0", END)
+        T.insert(END, test_channel.get_data())
     except ValueError:
         pass
 
@@ -114,11 +112,11 @@ ttk.Label(mainframe, text="incumbent signal? y/n").grid(column=1, row=4, sticky=
 
 ttk.Button(mainframe, text="Add signal", command=add_signal_gui).grid(column=3, row=3, sticky=W)
 
-
 T = Text(root, height=40, width=80)
 channel_data = test_channel.get_data()
 T.grid(column = 0, row = 5, sticky = S)
 T.insert(END, channel_data)
+
 
 for child in mainframe.winfo_children(): 
     child.grid_configure(padx=5, pady=5)
