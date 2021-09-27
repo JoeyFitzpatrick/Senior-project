@@ -5,10 +5,9 @@ Be able to choose the number of channels and signals, then run simulation
 
 implement saved environments, so simulation doesn't always start from scratch
 
-implement signal removal
-
-implement feature where signal keeps list of available channels, so that 
-if it must be removed from a channel, it can join another
+implement algorithms from studies to simulate complex behavior of IEEE 802.22 networks.
+For instance, removing signal from channel and adding to another, methods of finding
+which channel is the best fit for a signal, etc.
 
 simply add more data to signals and channels to more closely match network spec
 """
