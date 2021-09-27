@@ -115,6 +115,20 @@ ttk.Label(mainframe, text="incumbent signal? y/n").grid(column=1, row=4, sticky=
 
 ttk.Button(mainframe, text="Add signal", command=add_signal_gui).grid(column=3, row=3, sticky=W)
 
+
+T = Text(root, height=40, width=80)
+quote = """HAMLET: To be, or not to be--that is the question:
+Whether 'tis nobler in the mind to suffer
+The slings and arrows of outrageous fortune
+Or to take arms against a sea of troubles
+And by opposing end them. To die, to sleep--
+No more--and by a sleep to say we end
+The heartache, and the thousand natural shocks
+That flesh is heir to. 'Tis a consummation
+Devoutly to be wished."""
+T.grid(column = 0, row = 5, sticky = S)
+T.insert(END, quote)
+
 for child in mainframe.winfo_children(): 
     child.grid_configure(padx=5, pady=5)
 
