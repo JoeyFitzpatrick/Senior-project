@@ -10,6 +10,9 @@ Make network class
 """
 
 import uuid
+from tkinter import *
+from tkinter import ttk
+
 
 # make a signal class
 class Signal:
@@ -67,3 +70,36 @@ test_channel.add_signal(test_signal_1)
 test_channel.add_signal(test_signal_2)
 
 test_channel.get_data()
+
+
+
+# Tkinter gui code below
+root = Tk()
+root.title("IEEE 802.22 Simulation")
+
+mainframe = ttk.Frame(root, padding = "7 7 12 12")
+mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
+
+x_coord = DoubleVar()
+x_coord_entry = ttk.Entry(mainframe, width=7, textvariable=x_coord)
+x_coord_entry.grid(column=2, row=1, sticky=(W, E))
+
+y_coord = DoubleVar()
+y_coord_entry = ttk.Entry(mainframe, width=7, textvariable=y_coord)
+y_coord_entry.grid(column=2, row=2, sticky=(W, E))
+
+bandwith_gui = DoubleVar()
+bandwith_entry = ttk.Entry(mainframe, width=7, textvariable=bandwith_gui)
+bandwith_entry.grid(column=3, row=1, sticky=(W, E))
+
+is_incumbent_gui = StringVar()
+is_incumbent_entry = ttk.Entry(mainframe, width=7, textvariable=is_incumbent_gui)
+is_incumbent_entry.grid(column=3, row=2, sticky=(W, E))
+
+for child in mainframe.winfo_children(): 
+    child.grid_configure(padx=5, pady=5)
+
+
+root.mainloop()
