@@ -12,6 +12,7 @@ Make network class
 import uuid
 from tkinter import *
 from tkinter import ttk
+from math import sqrt
 
 
 # make a signal class
@@ -66,7 +67,26 @@ class Channel:
 channel_1 = Channel(location=(0, 0), bandwith=50)
 channel_2 = Channel(location=(20, 20), bandwith=100)
 
-channel_1.get_data()
+channels = [channel_1, channel_2]
+
+# TODO: channel selection algorithm
+# Create hierarchy of available channels, sort them, and add to first channel
+def add_signal_to_best_channel(signal: Signal):
+    available_channels = []
+    for channel in channels:
+        if channel.get_available_bandwith() >= signal.bandwith_usage:
+            x1 = signal.location[0]
+            y1 = signal.location[1]
+            x2 = channel.location[0]
+            y2 = channel.location[1]
+
+            # Calculate distance between signal and channel using formula
+            available_channels.append((channel, sqrt((x2 - x1)**2 + (y2 - y1)**2)))
+        
+    # Sort list of tuples in available channels by second value (distance), then add signal to first channel in list
+    if available_channels:
+        available_channels.sort(key = lambda x: x[1]) 
+        available_channels[0][0].add_signal(signal)
 
 
 
@@ -74,19 +94,15 @@ channel_1.get_data()
 def add_signal_gui(*args):
     incumbent = False
     if is_incumbent_gui.get() == "y": incumbent = True
-    if channel_selector.get() == 1: 
-        channel = channel_1
-        text_area = T
-    elif channel_selector.get() == 2: 
-        channel = channel_2
-        text_area = T_2
     else: pass
 
     gui_signal = Signal(location=(x_coord.get(), y_coord.get()), bandwith_usage=bandwith_gui.get(), is_incumbent=incumbent)
     try:
-        channel.add_signal(gui_signal)
-        text_area.delete("1.0", END)
-        text_area.insert(END, channel.get_data())
+        add_signal_to_best_channel(gui_signal)
+        T.delete("1.0", END)
+        T.insert(END, channel_1.get_data())
+        T_2.delete("1.0", END)
+        T_2.insert(END, channel_2.get_data())
     except ValueError:
         pass
 
@@ -119,22 +135,15 @@ is_incumbent_entry = ttk.Entry(mainframe, width=7, textvariable=is_incumbent_gui
 is_incumbent_entry.grid(column=2, row=4, sticky=(W, E))
 ttk.Label(mainframe, text="Incumbent signal? y/n").grid(column=1, row=4, sticky=W)
 
-channel_selector = IntVar()
-channel_selector_entry = ttk.Entry(mainframe, width=7, textvariable=channel_selector)
-channel_selector_entry.grid(column=4, row=1, sticky=(W, E))
-ttk.Label(mainframe, text="Add signal to which channel? 1/2").grid(column=3, row=1, sticky=W)
-
 ttk.Button(mainframe, text="Add signal", command=add_signal_gui).grid(column=3, row=3, sticky=W)
 
 T = Text(root, height=40, width=50)
-channel_data = channel_1.get_data()
 T.grid(column = 0, row = 6, sticky = S)
-T.insert(END, channel_data)
+T.insert(END, channel_1.get_data())
 
 T_2 = Text(root, height=40, width=50)
-channel_data = channel_2.get_data()
 T_2.grid(column = 3, row = 6, sticky = S)
-T_2.insert(END, channel_data)
+T_2.insert(END, channel_2.get_data())
 
 
 for child in mainframe.winfo_children(): 
