@@ -1,29 +1,41 @@
 import random
+import matplotlib.pyplot as plt
 
 def node_switch_2n2m():
     # Nodes switch with probability 0.5
-    n, m, v = 2, 2, 1
     conflict, non_conflict = 0, 0
     count = 0
     
     while count < 10000:
-        n1_choice = False
-        n2_choice = False
+        n1_choice = 0
+        n2_choice = 0
         if random.random() < 0.5:
-            n1_choice = True
+            n1_choice = 1
         if random.random() < 0.5:
-            n2_choice = True
+            n2_choice = 1
         
         if n1_choice == n2_choice: conflict += 1
         else: non_conflict += 1
         count += 1
-        
-    print(f"Conflict count: {conflict}")
-    print(f"Non-conflict count: {non_conflict}")
+    
+    x = [f'Conflict: {str(conflict)}', f'Non-conflict: {str(non_conflict)}']
+    result = [conflict, non_conflict]
+
+    x_pos = [i for i, _ in enumerate(x)]
+    
+    fig, ax = plt.subplots() 
+    
+    ax.bar(x_pos[0], result[0])
+    ax.bar(x_pos[1], result[1])
+
+    plt.ylabel("Simulation result")
+    plt.title(f"Proportion of non-conflicting result to 10,000 simulations: {non_conflict/10000}")
+    plt.xticks(x_pos, x)
+    plt.show()
+
     
 def node_switch_2n3m():
     # Nodes switch with probability 0.67
-    n, m, v = 2, 3, 1
     conflict, non_conflict = 0, 0
     count = 0
     
@@ -44,17 +56,65 @@ def node_switch_2n3m():
         else: non_conflict += 1
         count += 1
         
-    print(f"Conflict count: {conflict}")
-    print(f"Non-conflict count: {non_conflict}")
+    x = [f'Conflict: {str(conflict)}', f'Non-conflict: {str(non_conflict)}']
+    result = [conflict, non_conflict]
 
+    x_pos = [i for i, _ in enumerate(x)]
+    
+    fig, ax = plt.subplots() 
+    
+    ax.bar(x_pos[0], result[0])
+    ax.bar(x_pos[1], result[1])
 
-def node_switch(n, m):
-    # n = number of nodes, m = number of channels, v = number of vacant channels
-    v = m - 1
-    conflict = 0
-    non_conflict = 0
+    plt.ylabel("Simulation result")
+    plt.title(f"Proportion of non-conflicting result to 10,000 simulations: {non_conflict/10000}")
+    plt.xticks(x_pos, x)
+    plt.show()
+    
+def node_switch_3n3m():
+    # Nodes switch with probability 0.67
+    # Result in non-conflict 22.2% of the time
+    conflict, non_conflict = 0, 0
     count = 0
-    # TODO: complete this general case function
-        
+    p = 0.67
 
-node_switch_2n3m()
+    while count < 10000:
+        n1_channel = 0
+        n2_channel = 0
+        n3_channel = 0
+        if random.random() < p:
+            if random.random() < 0.5: 
+                n1_channel = 1
+            else: n1_channel = 2
+            
+        if random.random() < p:
+            if random.random() < 0.5:
+                n2_channel = 1
+            else: n2_channel = 2
+            
+        if random.random() < p:
+            if random.random() < 0.5:
+                n3_channel = 1
+            else: n3_channel = 2
+            
+        
+        if n1_channel == n2_channel or n2_channel == n3_channel or n1_channel == n3_channel: conflict += 1
+        else: non_conflict += 1
+        count += 1
+        
+    x = [f'Conflict: {str(conflict)}', f'Non-conflict: {str(non_conflict)}']
+    result = [conflict, non_conflict]
+
+    x_pos = [i for i, _ in enumerate(x)]
+
+    fig, ax = plt.subplots() 
+
+    ax.bar(x_pos[0], result[0])
+    ax.bar(x_pos[1], result[1])
+
+    plt.ylabel("Simulation result")
+    plt.title(f"Proportion of non-conflicting result to 10,000 simulations: {non_conflict/10000}")
+    plt.xticks(x_pos, x)
+    plt.show()
+
+node_switch_3n3m()
