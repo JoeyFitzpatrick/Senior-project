@@ -48,8 +48,7 @@ def graph(formula, x_range):
     plt.show()
     
 def get_max(n, c):
-    graph(equation_2(n, c, "x"), np.arange(-10, 10, 0.001))
+    graph(equation_2(n, c, "x"), np.arange(-20, 20, 0.001))
     
-# get_max(3, 3)
-print(equation(3, 3, "x"))
+print(equation(2, 2, "x"))
     
