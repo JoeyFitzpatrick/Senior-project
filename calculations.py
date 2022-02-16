@@ -13,7 +13,7 @@ def nPr(n, r):
 
 def equation(n, c, char="p"):
     if n > c: return "n must be <= c"
-    output = f"{nPr(n-1, n-1)*(c-1)*n} * (1-{char}) * ({char}^{n-1})/{(c-1)**(n-1)}"
+    output = f"({nPr(n-1, n-1)*(c-1)*n}) * (1-{char}) * ({char}^{n-1})/{(c-1)**(n-1)}"
     
     if n == c: return output
     
@@ -21,7 +21,7 @@ def equation(n, c, char="p"):
 
 def equation_2(n, c, char="p"):
     if n > c: return "n must be <= c"
-    output = f"{nPr(n-1, n-1)*(c-1)*n} * (1-{char}) * ({char}**{n-1})/{(c-1)**(n-1)}"
+    output = f"({nPr(n-1, n-1)*(c-1)*n}) * (1-{char}) * ({char}**{n-1})/{(c-1)**(n-1)}"
     
     if n == c: return output
     
@@ -49,17 +49,18 @@ def get_max(n, c):
     return get_max_test(equation_2(n, c, "x"), np.arange(0, 20, 0.01))
 
 
-#
-
 def get_diff(n, c):
     x = sym.Symbol("x")
-    return sym.diff(eval(equation_2(n, c, "x")))
+    return sym.simplify(sym.diff(eval(equation_2(n, c, "x"))))
 
 def set_diff_equals_zero(n, c):
     x = sym.Symbol("x")
     return sym.solveset(get_diff(n, c), x)
 
+def print_equations(n, c):
+    print("raw equation: ", equation(n, c, "x"))
+    print("equation to maximize: ", sym.simplify(equation(n, c, "x")))
+    print("derivative of function: ", get_diff(n, c))
+    print(set_diff_equals_zero(n, c))
 
-print("equation to maximize: ", equation(13, 17, "x"))
-print("derivative of function: ", get_diff(13, 17))
-print(set_diff_equals_zero(13, 17))
+print_equations(2, 3)
