@@ -13,7 +13,7 @@ def nPr(n, r):
 
 def equation(n, c, char="p"):
     if n > c: return "n must be <= c"
-    output = f"({nPr(n-1, n-1)*(c-1)*n}) * (1-{char}) * ({char}^{n-1})/{(c-1)**(n-1)}"
+    output = f"({nPr(n, 1)*nPr(c-1, n-1)}) * (1-{char}) * ({char}^{n-1})/{(c-1)**(n-1)}"
     
     if n == c: return output
     
@@ -21,7 +21,7 @@ def equation(n, c, char="p"):
 
 def equation_2(n, c, char="p"):
     if n > c: return "n must be <= c"
-    output = f"({nPr(n-1, n-1)*(c-1)*n}) * (1-{char}) * ({char}**{n-1})/{(c-1)**(n-1)}"
+    output = f"({nPr(n, 1)*nPr(c-1, n-1)}) * (1-{char}) * ({char}**{n-1})/{(c-1)**(n-1)}"
     
     if n == c: return output
     
@@ -62,5 +62,7 @@ def print_equations(n, c):
     print("equation to maximize: ", sym.simplify(equation(n, c, "x")))
     print("derivative of function: ", get_diff(n, c))
     print(set_diff_equals_zero(n, c))
+    
+# final equation: nPr(n, 1) * nPr(c-1, n-1) * (1 * p) * (p/(c-1)^(n-1)) + if c > n, nPr(c-1, n) * (p/(c-1)^n)
 
-print_equations(2, 3)
+print_equations(2, 2)
