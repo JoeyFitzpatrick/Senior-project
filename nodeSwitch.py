@@ -117,4 +117,4 @@ def node_switch_3n3m():
     plt.xticks(x_pos, x)
     plt.show()
 
-node_switch_2n2m()
+node_switch_3n3m()

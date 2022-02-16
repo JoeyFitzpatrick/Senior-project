@@ -1,6 +1,6 @@
 import math
 import numpy as np
-from scipy.optimize import minimize_scalar
+import sympy as sym
 import matplotlib.pyplot as plt
 
 
@@ -49,5 +49,16 @@ def get_max(n, c):
     return get_max_test(equation_2(n, c, "x"), np.arange(0, 20, 0.01))
 
 
-print(get_max(2, 3))
-print(equation(2, 3, "x"))
+#
+
+def get_diff(n, c):
+    x = sym.Symbol("x")
+    return sym.diff(eval(equation_2(n, c, "x")))
+
+def set_diff_equals_zero(n, c):
+    x = sym.Symbol("x")
+    return sym.solveset(get_diff(n, c), x)
+
+print("equation to maximize: ", equation(2, 5, "x"))
+print("derivative of function: ", get_diff(2, 5))
+print(set_diff_equals_zero(2, 5))
