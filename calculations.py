@@ -65,4 +65,18 @@ def print_equations(n, c):
     
 # final equation: nPr(n, 1) * nPr(c-1, n-1) * (1 * p) * (p/(c-1)^(n-1)) + if c > n, nPr(c-1, n) * (p/(c-1)^n)
 
-print_equations(2, 2)
+# print_equations(2, 2)
+
+c = 1.2
+cost = lambda N, M: (N * M)/(M - N)
+p_function = lambda N, M: (1/(1+c**cost(N,M)))**(1/(N-1))
+
+
+print(p_function(2, 8))
+
+# TODO: implement game theory
+# TODO: implement graph structures
+
+# expected cost of switching may equal c^f(N, M)
+# f(N, M) = (NM)/(M-N)
+# where N = number of nodes, M = number of channels
