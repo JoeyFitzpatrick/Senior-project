@@ -21,22 +21,11 @@ def equation(n, c, char="p"):
 
 def equation_2(n, c, char="p"):
     if n > c: return "n must be <= c"
-    output = f"{nPr(n-1, n-1)*(c-1)*n} * (1-{char}) * {char}**({n-1})/{(c-1)**(n-1)}"
+    output = f"{nPr(n-1, n-1)*(c-1)*n} * (1-{char}) * {char}**{n-1}/{(c-1)**(n-1)}"
     
     if n == c: return output
     
-    return output + f" + {nPr(c-1, n)} * {char}**({n})/{(c-1)**n}"
-
-def func(n, c):
-    a = nPr(n-1, n-1)
-    b = (c-1)
-    c = (n-1)
-    d = (c-1)**(n-1)
-    e = nPr(c-1, n)
-    
-    f = lambda x: (nPr(n-1, n-1)*(c-1)*n*(1-x) * (x/(c-1))**(n-1)) * -1
-    res = minimize_scalar(f, bounds=(1, 10), method='bounded')
-    return res.x
+    return output + f" + {nPr(c-1, n)} * {char}**{n}/{(c-1)**n}"
 
 def graph(formula, x_range):
     x = np.array(x_range)
@@ -47,8 +36,18 @@ def graph(formula, x_range):
     plt.text(1, 1, str(x[n_max]))
     plt.show()
     
+def get_max_graph(n, c):
+    graph(equation_2(n, c, "x"), np.arange(0, 20, 0.01))
+
+def get_max_test(formula, x_range):
+    x = np.array(x_range)
+    y = eval(formula)
+    n_max = y.argmax()
+    return x[n_max]
+
 def get_max(n, c):
-    graph(equation_2(n, c, "x"), np.arange(-20, 20, 0.001))
-    
-print(equation(2, 2, "x"))
-    
+    return get_max_test(equation_2(n, c, "x"), np.arange(0, 20, 0.01))
+
+
+print(get_max(2, 3))
+print(equation(2, 3, "x"))
