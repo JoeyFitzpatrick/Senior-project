@@ -13,19 +13,19 @@ def nPr(n, r):
 
 def equation(n, c, char="p"):
     if n > c: return "n must be <= c"
-    output = f"{nPr(n-1, n-1)*(c-1)*n} * (1-{char}) * {char}^{n-1}/{(c-1)**(n-1)}"
+    output = f"{nPr(n-1, n-1)*(c-1)*n} * (1-{char}) * ({char}^{n-1})/{(c-1)**(n-1)}"
     
     if n == c: return output
     
-    return output + f" + {nPr(c-1, n)} * {char}^{n}/{(c-1)**n}"
+    return output + f" + {nPr(c-1, n)} * ({char}^{n})/{(c-1)**n}"
 
 def equation_2(n, c, char="p"):
     if n > c: return "n must be <= c"
-    output = f"{nPr(n-1, n-1)*(c-1)*n} * (1-{char}) * {char}**{n-1}/{(c-1)**(n-1)}"
+    output = f"{nPr(n-1, n-1)*(c-1)*n} * (1-{char}) * ({char}**{n-1})/{(c-1)**(n-1)}"
     
     if n == c: return output
     
-    return output + f" + {nPr(c-1, n)} * {char}**{n}/{(c-1)**n}"
+    return output + f" + {nPr(c-1, n)} * ({char}**{n})/{(c-1)**n}"
 
 def graph(formula, x_range):
     x = np.array(x_range)
@@ -59,6 +59,7 @@ def set_diff_equals_zero(n, c):
     x = sym.Symbol("x")
     return sym.solveset(get_diff(n, c), x)
 
-print("equation to maximize: ", equation(2, 5, "x"))
-print("derivative of function: ", get_diff(2, 5))
-print(set_diff_equals_zero(2, 5))
+
+print("equation to maximize: ", equation(13, 17, "x"))
+print("derivative of function: ", get_diff(13, 17))
+print(set_diff_equals_zero(13, 17))
