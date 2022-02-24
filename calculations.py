@@ -67,12 +67,12 @@ def print_equations(n, c):
 
 # print_equations(2, 2)
 
-c = 1.2
+c = 1.15
 cost = lambda N, M: (N * M)/(M - N)
 p_function = lambda N, M: (1/(1+c**cost(N,M)))**(1/(N-1))
 
 
-print(p_function(2, 8))
+print(p_function(40, 50))
 
 # TODO: implement game theory
 # TODO: implement graph structures
