@@ -83,6 +83,10 @@ def print_equations(n, c):
 
 
 c = 1.2
+
+# c = expected cost of choice
+# N = number of nodes
+# M = number of channels
 def cost_func(N, M): return (N * M)/(M - N)
 
 def p_function(c, N, M): return (1/(1+c**cost_func(N, M)))**(1/(N-1))
