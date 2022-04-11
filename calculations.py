@@ -72,14 +72,14 @@ def set_diff_equals_zero(n, c):
 
 
 def print_equations(n, c):
-    print("raw equation: ", equation(n, c, "x"))
+    print("raw equation: ", equation_2(n, c, "x"))
     print("equation to maximize: ", sym.simplify(equation(n, c, "x")))
     print("derivative of function: ", get_diff(n, c))
     print(set_diff_equals_zero(n, c))
 
 # final equation: nPr(n, 1) * nPr(c-1, n-1) * (1 * p) * (p/(c-1)^(n-1)) + if c > n, nPr(c-1, n) * (p/(c-1)^n)
 
-print_equations(4, 4)
+print_equations(4, 5)
 
 
 c = 1.2
